@@ -39,6 +39,13 @@
 - [Compatibility / platform constraint]
 - [Performance / security / operational constraint]
 
+## Approaches Considered
+
+| Approach | Tradeoff | Decision |
+|----------|----------|----------|
+| [Approach 1] | [Main tradeoff] | [Chosen/rejected and why] |
+| [Approach 2] | [Main tradeoff] | [Chosen/rejected and why] |
+
 ## Decisions Made
 
 - [Decision 1]
@@ -48,3 +55,7 @@
 
 - [Specific observable behavior]
 - [Specific observable behavior]
+
+## No Placeholders
+
+Before approval, replace all placeholders. Do not leave `TBD`, `TODO`, unresolved open questions, or vague requirements that could be interpreted multiple ways.

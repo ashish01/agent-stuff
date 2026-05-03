@@ -29,6 +29,12 @@
 | [Alt 1] | [Reason] |
 | [Alt 2] | [Reason] |
 
+## Files and Responsibilities
+
+| File | Create/Modify | Responsibility |
+|------|---------------|----------------|
+| `path/to/file` | Create/Modify | [Specific responsibility] |
+
 ## Scope
 
 - **In scope:**
@@ -49,3 +55,18 @@
 
 - [Dependency 1 — e.g., npm package, API key, external service]
 - [Dependency 2]
+
+## Verification Plan
+
+List exact commands or observable checks that will prove success:
+
+| Check | Command / Observation | Expected Result |
+|-------|------------------------|-----------------|
+| Tests | `[exact command]` | [expected pass condition] |
+| Lint / format | `[exact command or N/A]` | [expected pass condition or N/A] |
+| Type check / build | `[exact command or N/A]` | [expected pass condition or N/A] |
+| Smoke test | [manual or automated check] | [observable expected result] |
+
+## No Placeholders
+
+Before approval, replace all placeholders. Do not leave `TBD`, `TODO`, “handle edge cases”, “write tests”, “implement validation”, “similar to above”, or any instruction that requires guessing.
