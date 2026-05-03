@@ -13,4 +13,4 @@ Personal agent workflows, skills, and related tooling.
 
 ## Included extensions
 
-- `structured-dev-workers` — supervised worker-per-task execution for approved `structured-dev` tasks, with child Pi JSON event mirroring and logs under `.pi/structured-dev/runs/`
+- `task` — generic fresh-context Pi subagent delegation tool used by workflows such as `structured-dev`

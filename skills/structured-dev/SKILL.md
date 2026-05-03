@@ -37,10 +37,12 @@ Do **not** apply this workflow for:
 
 ## Rigor Levels
 
-- **Level 0 — Direct Execute:** trivial, unambiguous, low-risk change; declare change + verification, then do it.
-- **Level 1 — Small Change:** small but non-trivial change; combined mini plan + checklist in chat, approved once before implementation.
-- **Level 2 — Medium Change:** nontrivial implementation with reasonably clear outcome; write `PLAN.md` and `TASKS.md`.
-- **Level 3 — Large or Ambiguous Change:** ambiguous, design-heavy, or high-risk work; write `SPEC.md`, then `PLAN.md`, then `TASKS.md`.
+| Level | Use When | Artifact Strategy | Details |
+|-------|----------|-------------------|---------|
+| **0 — Direct Execute** | trivial, unambiguous, negligible-risk mechanical edit | no artifacts; declare + execute | `references/level-0-direct.md` |
+| **1 — Small Change** | clear, low-risk, small but multi-step | mini plan + checklist in chat; one approval | `references/level-1-small.md` |
+| **2 — Medium Change** | reasonably clear outcome, multiple files/components, ordering, moderate risk, or resumability needed | `PLAN.md` then `TASKS.md` | `references/level-2-medium.md` |
+| **3 — Large or Ambiguous** | ambiguous desired behavior, product/UX/scope choices, architecture changes, migration, or high risk | `SPEC.md` then `PLAN.md` then `TASKS.md` | `references/level-3-large-ambiguous.md` |
 
 ## Workflow Overview
 
@@ -49,8 +51,8 @@ PHASE 1: Analyze → PHASE 2: Research (if needed) → PHASE 3: Think + Classify
 
 Level 0: Declare → Implement → Verify
 Level 1: Mini Plan + Checklist → Approval → Implement → Verify
-Level 2: PLAN.md → Approval → TASKS.md → Approval → Implement → Verify
-Level 3: SPEC.md → Approval → PLAN.md → Approval → TASKS.md → Approval → Implement → Verify
+Level 2: PLAN.md → Approval → TASKS.md → Approval → Execute → Verify
+Level 3: SPEC.md → Approval → PLAN.md → Approval → TASKS.md → Approval → Execute → Verify
 ```
 
 ## PHASE 1: Analyze Current State
@@ -157,191 +159,21 @@ Choose **Level 3** when any are true:
 - migration or high-risk changes are involved
 - planning would be irresponsible without a spec first
 
-### Discovery for Ambiguous Level 3 Work
+## PHASE 4+: Load Level Details
 
-If Level 3 is selected because the desired outcome, scope, product behavior, or UX is unclear, do lightweight discovery before writing `SPEC.md`:
+After classification, read the matching reference before creating artifacts or implementing:
 
-1. Ask clarifying questions one at a time.
-2. Prefer multiple-choice questions when that makes the decision easier for the user.
-3. Clarify goals, constraints, success criteria, non-goals, and important tradeoffs.
-4. Propose 2-3 plausible approaches with tradeoffs.
-5. Recommend one approach and explain why.
-6. Ask for approval of the direction before writing `SPEC.md`.
+- **Level 0:** read `references/level-0-direct.md`
+- **Level 1:** read `references/level-1-small.md`
+- **Level 2:** read `references/level-2-medium.md`; before execution, read `references/execution-modes.md`
+- **Level 3:** read `references/level-3-large-ambiguous.md`; before execution, read `references/execution-modes.md`
 
-Do not write a spec for ambiguous work until the intended behavior and chosen approach are clear enough to validate.
-
-If Level 0 is selected, proceed directly to implementation after the declaration. Otherwise continue to Phase 4.
-
-## PHASE 4: Create Artifacts + Get Approvals
-
-**Goal:** Create only the artifacts needed for the selected level, then stop at the required approval gates.
-
-### Level 0
-
-After Phase 3, post a brief declaration in chat:
-- what you found
-- what you are changing
-- how you will verify it
-
-Then implement immediately. No artifact, no task list, no approval gate.
-
-### Level 1
-
-Create one concise **mini plan + checklist in chat** with:
-- Summary
-- Current State
-- Research Findings
-- Approach
-- Scope
-- Risks & Mitigations
-- Ordered checklist
-- Acceptance criteria
-- Final verification task
-
-Ask for approval once and stop.
-
-### Level 2
-
-1. Write `PLAN.md` using `references/PLAN-TEMPLATE.md`
-2. Self-review the artifact, fix issues, then ask for approval and stop
-3. Write `TASKS.md` using `references/TASKS-TEMPLATE.md`
-4. Self-review the artifact, fix issues, then ask for approval and stop
-
-Task guidelines:
-- each task should be completable in one focused effort
-- order tasks by dependency
-- include setup tasks when needed
-- include testing tasks where applicable
-- final task is always verification/validation
-
-### Level 3
-
-1. Complete discovery if ambiguity remains
-2. Write `SPEC.md` using `references/SPEC-TEMPLATE.md`
-3. Self-review the artifact, fix issues, then ask for approval and stop
-4. Write `PLAN.md` using `references/PLAN-TEMPLATE.md`
-5. Self-review the artifact, fix issues, then ask for approval and stop
-6. Write `TASKS.md` using `references/TASKS-TEMPLATE.md`
-7. Self-review the artifact, fix issues, then ask for approval and stop
-
-### Artifact Self-Review
-
-Before asking for approval on any `SPEC.md`, `PLAN.md`, `TASKS.md`, or Level 1 mini plan/checklist, review and fix:
-
-1. **Placeholder scan:** no `TBD`, `TODO`, vague instructions, or incomplete sections.
-2. **Consistency check:** names, files, behavior, scope, and acceptance criteria agree.
-3. **Scope check:** no unrelated refactoring or unapproved extras.
-4. **Verification check:** success can be proven with concrete commands or observable checks.
-
-### Approval Gates
-
-**Never skip approval gates.** The user must explicitly approve before you proceed.
-
-Required approvals by level:
-- **Level 1:** mini plan + checklist approval
-- **Level 2:** `PLAN.md` approval, then `TASKS.md` approval
-- **Level 3:** `SPEC.md` approval, then `PLAN.md` approval, then `TASKS.md` approval
-
-If the user requests changes:
-1. update the active artifact(s)
-2. briefly summarize what changed
-3. ask for approval again
-
-## PHASE 5: Implement
-
-**Goal:** Execute approved work using the lightest safe execution mode.
-
-### Execution Modes
-
-After tasks are approved, choose an execution mode.
-
-- **In-session execution:** default for Level 0 / Level 1 and always available.
-- **Supervised task-tool subagent execution:** available only when `PLAN.md` and `TASKS.md` exist and the `run_structured_tasks` extension tool is loaded. This is structured-dev's subagent-driven mode: each approved task runs in a fresh child Pi session while the parent session supervises progress, handles blocked/failed tasks, and performs review/verification.
-
-Task-tool subagent policy:
-- **Level 0:** do not use task-tool subagents; direct execute in-session.
-- **Level 1:** use in-session execution by default. If the user explicitly wants task-tool subagents, promote to Level 2 and create `PLAN.md` / `TASKS.md` first.
-- **Level 2:** offer both options: in-session execution or supervised task-tool subagent execution with `run_structured_tasks`.
-- **Level 3:** recommend supervised task-tool subagent execution with `run_structured_tasks`, but still ask before using it.
-
-Rules:
-- Never start task-tool subagent execution without explicit user approval.
-- Do not use ad-hoc worker scripts, background bash loops, or manual subagent spawning for this workflow.
-- If task-tool subagent execution is approved, call `run_structured_tasks` instead of spawning subagents manually.
-- If the extension tool is unavailable, explain that this mode requires the structured-dev task extension and fall back to in-session execution if the user agrees.
-
-Implementation by level:
-- **Level 0:** implement the declared change and run the planned verification.
-- **Level 1:** execute the approved in-band tasks and update the in-band checklist as you go.
-- **Level 2 / Level 3:** execute the approved `TASKS.md` tasks in the approved execution mode and update progress in `TASKS.md`.
-
-### Test-First Guidance
-
-For behavior changes and bug fixes, prefer test-first implementation:
-
-1. Add or update a focused test that captures the desired behavior.
-2. Run it and confirm it fails for the expected reason.
-3. Implement the smallest safe change.
-4. Run the focused test and relevant suite.
-
-If test-first is impractical, state why and choose an explicit alternate verification path before coding.
-
-### Turn-Continuation Rule
-
-Do **not** end a turn with a standalone status-only message if work can continue.
-After finishing a task, continue directly into the next task unless blocked.
-
-Pause only when:
-- external action is required
-- a spec/plan assumption is invalid
-- tasks conflict and need reprioritization
-- a dependency is missing with no safe workaround
-
-Do **not** pause for:
-- minor implementation choices
-- fixable test failures
-- normal edge-case handling
-
-## PHASE 5.5: Review Level 2 / Level 3 Work
-
-For Level 2 or Level 3, after implementation and before final verification, perform a review pass:
-
-1. Compare changes against `TASKS.md` acceptance criteria.
-2. Check for missing requirements, unrelated changes, and unapproved scope creep.
-3. Check for obvious code quality, maintainability, and integration risks.
-4. Fix critical or important issues before final verification.
-
-If task-tool subagent execution was used, do not rely only on subagent success reports. Inspect the resulting changes and task updates.
-
-## PHASE 6: Verify
-
-**Goal:** Prove the change actually works.
-
-Run, as applicable:
-1. full test suite
-2. lint/format checks
-3. type checking
-4. smoke test of the main functionality
-
-Use fresh verification evidence before making completion claims.
-
-Do not claim work is complete, fixed, passing, or successful until the relevant verification command or observable check has been run in the current session and its output has been read. Completion claims must include the evidence: command/check, pass/fail result, and any relevant caveat.
-
-Report results by level:
-- **Level 0 / Level 1:** provide the verification summary in chat
-- **Level 2 / Level 3:** add a `## Verification` section to `TASKS.md` (see `references/TASKS-TEMPLATE.md`)
-
-Verification summary fields:
-- **Tests:** pass / fail / N/A
-- **Lint:** pass / fail / N/A
-- **Type check:** pass / fail / N/A
-- **Smoke test:** pass / fail with brief note
-- **Review:** Level 2/3 only — acceptance-criteria and scope review summary
-- **Summary:** 1-2 sentence change summary
+Before final completion claims for any level, read `references/verification.md` and follow it.
 
 ## Important Rules
 
 1. Never skip Phase 3. Think and classify before writing code.
 2. Do not silently make changes. Even Level 0 requires a declaration before implementation.
-3. Update task progress in real time for any level that has tasks.
-4. If `SPEC.md`, `PLAN.md`, or `TASKS.md` already exist for the active level, read them first and ask whether to continue or start fresh.
+3. Approval gates in the level reference are mandatory.
+4. Update task progress in real time for any level that has tasks.
+5. If `SPEC.md`, `PLAN.md`, or `TASKS.md` already exist for the active level, read them first and ask whether to continue or start fresh.
