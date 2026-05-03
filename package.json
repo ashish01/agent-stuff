@@ -1,0 +1,18 @@
+{
+  "name": "agent-stuff",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Personal pi agent workflows, skills, and extensions.",
+  "keywords": ["pi-package"],
+  "peerDependencies": {
+    "@mariozechner/pi-ai": "*",
+    "@mariozechner/pi-agent-core": "*",
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*",
+    "typebox": "*"
+  },
+  "pi": {
+    "skills": ["./skills"],
+    "extensions": ["./extensions"]
+  }
+}
